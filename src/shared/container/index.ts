@@ -8,6 +8,8 @@ import { StatementsRepository } from '../../modules/statements/repositories/Stat
 
 import { IUsersTokensRepository } from '../../modules/users/repositories/IUsersTokensRepository';
 import { UsersTokensRepository } from '../../modules/users/repositories/UsersTokensRepository';
+import { TasksRepository } from '@modules/tasks/repositories/TasksRepository';
+import { ITasksRepository } from '@modules/tasks/repositories/ITasksRepository';
 
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
@@ -22,4 +24,9 @@ container.registerSingleton<IStatementsRepository>(
 container.registerSingleton<IUsersTokensRepository>(
   'UsersTokensRepository',
   UsersTokensRepository
-)
+);
+
+container.registerSingleton<ITasksRepository>(
+  'TasksRepository',
+  TasksRepository
+);

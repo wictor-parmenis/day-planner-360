@@ -9,7 +9,8 @@
     "dev": "nodemon --exec ts-node --files --require tsconfig-paths/register --transpile-only ./src/server.ts",
     "test": "jest --runInBand",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli",
-    "migrations": "npx typeorm migration:run"
+    "migrations:run": "npx typeorm migration:run",
+    "migrations:create": "npm run typeorm migration:create -- -n"
   },
   "dependencies": {
     "@types/nanoid": "^3.0.0",
