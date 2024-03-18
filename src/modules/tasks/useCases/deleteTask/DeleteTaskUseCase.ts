@@ -18,9 +18,6 @@ export class DeleteTaskUseCase {
       throw new DeleteTaskError();
     }
 
-    const taskDeletedResult =
-      await this.tasksRepository.deleteTaskById(task_id);
-
-    return taskDeletedResult;
+    return this.tasksRepository.deleteTaskById(task_id);
   }
 }

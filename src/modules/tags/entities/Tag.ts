@@ -2,32 +2,28 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
-import { Tag } from '@modules/tags/entities/Tag';
+import { Task } from '@modules/tasks/entities/Task';
 
-@Entity('tasks')
-export class Task {
+@Entity('tags')
+export class Tag {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @Column()
-  title: string;
+  @Column('uuid')
+  task_id: string;
+
+  @ManyToOne(() => Task, (task) => task.tag)
+  @JoinColumn({ name: 'task_id' })
+  task: Task;
 
   @Column()
   description: string;
-
-  @OneToMany(() => Tag, (tag) => tag.task)
-  tag: Tag[];
-
-  @Column()
-  estimated_duration: Number; // time in miliseconds;
-
-  @Column({ nullable: false })
-  date_execution: string;
 
   @CreateDateColumn()
   created_at: Date;

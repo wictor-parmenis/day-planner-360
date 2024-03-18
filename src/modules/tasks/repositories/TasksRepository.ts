@@ -3,6 +3,7 @@ import { DeleteResult, getRepository, Repository } from 'typeorm';
 import { Task } from '../entities/Task';
 import { ITasksRepository } from './ITasksRepository';
 import { ICreateTaskDTO } from '../useCases/createTask/ICreateTaskDTO';
+import { IListTasksByIntervalDTO } from '../useCases/listTasksByInterval/IListTasksByIntervalDTO';
 
 export class TasksRepository implements ITasksRepository {
   private repository: Repository<Task>;
@@ -11,10 +12,11 @@ export class TasksRepository implements ITasksRepository {
     this.repository = getRepository(Task);
   }
 
-  async findByTitle(title: string): Promise<Task | undefined> {
-    return this.repository.findOne({
-      title,
-    });
+  async listByTitlePart(title_part: string): Promise<Task[] | undefined> {
+    return this.repository
+      .createQueryBuilder('tasks')
+      .where('tasks.title LIKE :text', { text: `%${title_part}%` })
+      .getMany();
   }
 
   async findByExecutionDate(date_execution: string): Promise<Task | undefined> {
@@ -45,5 +47,16 @@ export class TasksRepository implements ITasksRepository {
 
   async deleteTaskById(task_id: string): Promise<DeleteResult> {
     return this.repository.delete(task_id);
+  }
+
+  async listTasksByInterval({
+    initial_date,
+    final_date,
+  }: IListTasksByIntervalDTO): Promise<Task[]> {
+    return this.repository
+      .createQueryBuilder('tasks')
+      .where('tasks.date_execution >= :initial_date', { initial_date })
+      .andWhere('tasks.date_execution <= :final_date', { final_date })
+      .getMany();
   }
 }
