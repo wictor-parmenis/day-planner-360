@@ -1,10 +1,8 @@
 import { DeleteResult, getRepository, Repository } from 'typeorm';
-import {
-  ICreateTagDTO,
-  ITagsRepository,
-  IUpdateTagDTO,
-} from './ITagsRepository';
+import { ITagsRepository } from './ITagsRepository';
 import { Tag } from '../entities/Tag';
+import { ICreateTagDTO } from '../useCases/createTag/ICreateTagDTO';
+import { IUpdateTagDTO } from '../useCases/updateTag/IUpdateTagDTO';
 
 export class TagsRepository implements ITagsRepository {
   private repository: Repository<Tag>;
@@ -22,8 +20,8 @@ export class TagsRepository implements ITagsRepository {
       .getMany();
   }
 
-  async findById(task_id: string): Promise<Tag | undefined> {
-    return this.repository.findOne(task_id);
+  async findById(tag_id: string): Promise<Tag | undefined> {
+    return this.repository.findOne(tag_id);
   }
 
   async create({ description, task_id }: ICreateTagDTO): Promise<Tag> {
@@ -41,9 +39,13 @@ export class TagsRepository implements ITagsRepository {
   async list(): Promise<Tag[]> {
     return this.repository.find();
   }
-  async updateById({ tag, new_description }: IUpdateTagDTO): Promise<Tag> {
-    Object.assign(tag, { description: new_description });
+  async updateById({ tag_id, new_description }: IUpdateTagDTO): Promise<Tag> {
+    const tagSelected = await this.repository.findOne(tag_id);
+    Object.assign(tagSelected, { description: new_description });
 
-    return this.repository.save(tag);
+    return this.repository.save(tagSelected);
+  }
+  findByTaskId(task_id: string): Promise<Tag[]> {
+    return this.repository.find({ where: { task_id } });
   }
 }

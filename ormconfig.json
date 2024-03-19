@@ -5,7 +5,10 @@
   "host": "database",
   "port": 5432,
   "database": "day_planner_360_db",
-  "entities": ["./dist/modules/**/entities/*.js"],
+  "entities": [
+    "./dist/modules/**/entities/*.js",
+    "./src/modules/**/entities/*.ts"
+  ],
   "migrations": ["./dist/database/migrations/*.js"],
   "cli": {
     "migrationsDir": "./src/database/migrations"

@@ -2,6 +2,7 @@ import { DeleteResult } from 'typeorm';
 import { Task } from '../entities/Task';
 import { ICreateTaskDTO } from '../useCases/createTask/ICreateTaskDTO';
 import { IListTasksByIntervalDTO } from '../useCases/listTasksByInterval/IListTasksByIntervalDTO';
+import { IUpdateTaskRepositoryDTO } from '../useCases/updateTask/IUpdateTaskDTO';
 
 export interface ITasksRepository {
   create: (data: ICreateTaskDTO) => Promise<Task>;
@@ -12,4 +13,5 @@ export interface ITasksRepository {
   listTasksByInterval: (
     data: IListTasksByIntervalDTO
   ) => Promise<Task[] | undefined>;
+  updateById: (data: IUpdateTaskRepositoryDTO) => Promise<Task | undefined>;
 }

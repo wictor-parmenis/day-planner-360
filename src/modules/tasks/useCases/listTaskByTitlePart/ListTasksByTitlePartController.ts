@@ -6,9 +6,11 @@ export class ListTasksByTitlePartController {
   async index(request: Request, response: Response) {
     const title_part = request.query.title_part as string;
 
-    const listByTitlePart = container.resolve(ListTasksByTitlePartUseCase);
+    const listByTitlePartOperation = container.resolve(
+      ListTasksByTitlePartUseCase
+    );
 
-    const listTasks = await listByTitlePart.execute({
+    const listTasks = await listByTitlePartOperation.execute({
       title_part,
     });
 

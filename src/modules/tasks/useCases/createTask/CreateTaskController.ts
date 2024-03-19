@@ -3,13 +3,13 @@ import { container } from 'tsyringe';
 import { CreateTaskUseCase } from './CreateTaskUseCase';
 
 export class CreateTaskController {
-  async execute(request: Request, response: Response) {
+  async create(request: Request, response: Response) {
     const { date_execution, description, estimated_duration, title } =
       request.body;
 
-    const createTask = container.resolve(CreateTaskUseCase);
+    const createTaskOperation = container.resolve(CreateTaskUseCase);
 
-    await createTask.execute({
+    await createTaskOperation.execute({
       date_execution,
       description,
       estimated_duration,

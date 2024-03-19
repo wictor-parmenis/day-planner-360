@@ -4,6 +4,10 @@ import { Task } from '../entities/Task';
 import { ITasksRepository } from './ITasksRepository';
 import { ICreateTaskDTO } from '../useCases/createTask/ICreateTaskDTO';
 import { IListTasksByIntervalDTO } from '../useCases/listTasksByInterval/IListTasksByIntervalDTO';
+import {
+  IUpdateTaskDTO,
+  IUpdateTaskRepositoryDTO,
+} from '../useCases/updateTask/IUpdateTaskDTO';
 
 export class TasksRepository implements ITasksRepository {
   private repository: Repository<Task>;
@@ -43,6 +47,26 @@ export class TasksRepository implements ITasksRepository {
     });
 
     return this.repository.save(task);
+  }
+
+  async updateById({
+    date_execution,
+    description,
+    estimated_duration,
+    tags,
+    task_id,
+  }: IUpdateTaskRepositoryDTO): Promise<Task> {
+    const taskFound = await this.repository.findOne(task_id);
+    Object.assign(taskFound, {
+      date_execution,
+      description,
+      estimated_duration,
+      tags,
+    });
+
+    console.log('taskFound', taskFound);
+
+    return this.repository.save(taskFound);
   }
 
   async deleteTaskById(task_id: string): Promise<DeleteResult> {

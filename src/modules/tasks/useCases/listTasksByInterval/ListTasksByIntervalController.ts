@@ -7,9 +7,11 @@ export class ListTasksByIntervalController {
     const final_date = request.query.final_date as unknown as Date;
     const initial_date = request.query.initial_date as unknown as Date;
 
-    const listTasksByInterval = container.resolve(ListTasksByIntervalUseCase);
+    const listTasksByIntervalOperation = container.resolve(
+      ListTasksByIntervalUseCase
+    );
 
-    const listTasks = await listTasksByInterval.execute({
+    const listTasks = await listTasksByIntervalOperation.execute({
       final_date,
       initial_date,
     });

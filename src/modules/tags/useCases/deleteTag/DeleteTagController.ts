@@ -1,15 +1,15 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { DeleteTaskUseCase } from './DeleteTaskUseCase';
+import { DeleteTagUseCase } from './DeleteTagUseCase';
 
-export class DeleteTaskController {
+export class DeleteTagController {
   async delete(request: Request, response: Response) {
-    const { task_id } = request.params;
+    const { tag_id } = request.params;
 
-    const deleteTaskOperation = container.resolve(DeleteTaskUseCase);
+    const deleteTaskOperation = container.resolve(DeleteTagUseCase);
 
     await deleteTaskOperation.execute({
-      task_id,
+      tag_id,
     });
 
     return response.status(204).send();
