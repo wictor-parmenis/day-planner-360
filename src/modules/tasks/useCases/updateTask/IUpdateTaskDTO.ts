@@ -15,5 +15,5 @@ export interface IUpdateTaskRepositoryDTO {
   description: string;
   date_execution: string;
   estimated_duration: number;
-  tags: Tag[];
+  tags_ids: string[];
 }

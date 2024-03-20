@@ -2,7 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
@@ -20,11 +21,12 @@ export class Task {
   @Column()
   description: string;
 
-  @OneToMany(() => Tag, (tag) => tag.task)
-  tag: Tag[];
+  @ManyToMany(() => Tag)
+  @JoinTable()
+  tags: Tag[];
 
   @Column()
-  estimated_duration: Number; // time in miliseconds;
+  estimated_duration: number;
 
   @Column({ nullable: false })
   date_execution: string;

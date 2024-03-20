@@ -16,7 +16,7 @@ export class TagsRepository implements ITagsRepository {
   ): Promise<Tag[] | undefined> {
     return this.repository
       .createQueryBuilder('tags')
-      .where('tasks.description LIKE :text', { text: `%${description_part}%` })
+      .where('tags.description LIKE :text', { text: `%${description_part}%` })
       .getMany();
   }
 
@@ -24,10 +24,9 @@ export class TagsRepository implements ITagsRepository {
     return this.repository.findOne(tag_id);
   }
 
-  async create({ description, task_id }: ICreateTagDTO): Promise<Tag> {
+  async create({ description }: ICreateTagDTO): Promise<Tag> {
     const tag = this.repository.create({
       description,
-      task_id,
     });
 
     return this.repository.save(tag);
@@ -44,8 +43,5 @@ export class TagsRepository implements ITagsRepository {
     Object.assign(tagSelected, { description: new_description });
 
     return this.repository.save(tagSelected);
-  }
-  findByTaskId(task_id: string): Promise<Tag[]> {
-    return this.repository.find({ where: { task_id } });
   }
 }

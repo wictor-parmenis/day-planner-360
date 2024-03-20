@@ -1,19 +1,19 @@
 import { inject, injectable } from 'tsyringe';
 
 import { ITasksRepository } from '@modules/tasks/repositories/ITasksRepository';
-import { IListTasksByTitlePartDTO } from './IListTasksByTitlePartDTO';
-import { ITagsRepository } from '@modules/tags/repositories/ITagsRepository';
 import { isEmpty } from 'lodash';
+import { IListTasksByTagsDTO } from './IListTasksByTagsDTO';
+import { log } from 'util';
 
 @injectable()
-export class ListTasksByTitlePartUseCase {
+export class ListTasksByTagsUseCase {
   constructor(
     @inject('TasksRepository')
     private tasksRepository: ITasksRepository
   ) {}
 
-  async execute({ title_part }: IListTasksByTitlePartDTO) {
-    const taskList = await this.tasksRepository.listByTitlePart(title_part);
+  async execute({ tags_ids }: IListTasksByTagsDTO) {
+    const taskList = await this.tasksRepository.findByTags(tags_ids);
 
     if (isEmpty(taskList)) {
       return [];

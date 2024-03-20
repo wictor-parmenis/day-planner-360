@@ -16,13 +16,7 @@ export class CreateTagUseCase {
     private tasksRepository: ITasksRepository
   ) {}
 
-  async execute({ description, task_id }: ICreateTagDTO) {
-    const taskExist = await this.tasksRepository.findById(task_id);
-
-    if (!taskExist) {
-      throw new TaskNotFoundError();
-    }
-
+  async execute({ description }: ICreateTagDTO) {
     const lengthTags = await this.tagsRepository.list();
 
     if (lengthTags.length >= 10) {
@@ -31,7 +25,6 @@ export class CreateTagUseCase {
 
     const tag = await this.tagsRepository.create({
       description,
-      task_id,
     });
 
     return tag;

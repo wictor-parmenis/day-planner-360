@@ -52,9 +52,9 @@ export class UpdateTaskUseCase {
       date_execution,
       description,
       estimated_duration,
-      tags,
       task_id,
       title,
+      tags_ids,
     });
 
     return taskUpdated;
