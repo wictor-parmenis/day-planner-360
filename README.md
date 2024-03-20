@@ -8,7 +8,7 @@
 4. Posteriomente, ainda na raiz do projeto, execute `docker-compose up -d`;
 5. Entre no container da API em node com o comando: `docker exec -it  {idDoContainerDaAPINode} /bin/bash`;
 6. Dentro do container execute: `npx typeorm migration:run` ou `npm run migrations:run`.
-7. Passo a passo finalizado, já é possível utilizar as rotas da API.
+7. Passo a passo finalizado, já é possível utilizar as rotas da API, usando como base o client `Insomnia`, com o arquivo: `day_planner_360_collection`.
 
 ## Passo a passo opicional para executar o projeto localmente de modo que o banco de dados execute com o Docker e a API node execute na sua máquina sem uso de conteineres:
 
@@ -53,4 +53,4 @@
 
 7. Após isso execute: `npx typeorm migration:run` ou `npm run migrations:run`.
 8. Por fim, execute o comando `npm run dev` para iniciar o servidor;
-9. Passo a passo finalizado, já é possível utilizar as rotas da API.
+9. Passo a passo finalizado, já é possível utilizar as rotas da API, usando como base o client `Insomnia`, com o arquivo: `day_planner_360_collection`.
