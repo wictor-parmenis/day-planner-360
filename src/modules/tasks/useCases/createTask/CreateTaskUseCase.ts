@@ -6,6 +6,7 @@ import { CreateTaskError } from './CreateTaskError';
 import { ITagsRepository } from '@modules/tags/repositories/ITagsRepository';
 import { Tag } from '@modules/tags/entities/Tag';
 import { isEmpty } from 'lodash';
+import { CreateTaskReachedLimitOfTagsError } from './CreateTaskReachedLimitOfTagsError';
 
 @injectable()
 export class CreateTaskUseCase {
@@ -30,6 +31,11 @@ export class CreateTaskUseCase {
       throw new CreateTaskError();
     }
 
+    const reachedLimitOfTags = tags_ids.length > 10;
+    if (reachedLimitOfTags) {
+      throw new CreateTaskReachedLimitOfTagsError();
+    }
+
     let tagsOfTask: Tag[] = [];
     if (tags_ids && tags_ids.length) {
       tags_ids.forEach(async (tag_id) => {
@@ -39,7 +45,7 @@ export class CreateTaskUseCase {
         }
       });
     }
-    const user = await this.tasksRepository.create({
+    const task = await this.tasksRepository.create({
       date_execution,
       description,
       estimated_duration,
@@ -47,6 +53,6 @@ export class CreateTaskUseCase {
       tags: tagsOfTask,
     });
 
-    return user;
+    return task;
   }
 }

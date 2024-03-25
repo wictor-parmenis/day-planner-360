@@ -15,10 +15,6 @@ export class ListTasksByTitlePartUseCase {
   async execute({ title_part }: IListTasksByTitlePartDTO) {
     const taskList = await this.tasksRepository.listByTitlePart(title_part);
 
-    if (isEmpty(taskList)) {
-      return [];
-    }
-
     return taskList;
   }
 }

@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { IDeleteTaskDTO } from './IDeleteTaskDTO';
 import { ITasksRepository } from '@modules/tasks/repositories/ITasksRepository';
 import { TaskNotFoundError } from '@shared/errors/TaskNotFoundError';
+import { DeleteResult } from 'typeorm';
 
 @injectable()
 export class DeleteTaskUseCase {
@@ -11,7 +12,7 @@ export class DeleteTaskUseCase {
     private tasksRepository: ITasksRepository
   ) {}
 
-  async execute({ task_id }: IDeleteTaskDTO) {
+  async execute({ task_id }: IDeleteTaskDTO): Promise<DeleteResult> {
     const taskExist = await this.tasksRepository.findById(task_id);
 
     if (!taskExist) {

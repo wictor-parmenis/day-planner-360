@@ -1,26 +1,27 @@
 import { inject, injectable } from 'tsyringe';
-
 import { ICreateTagDTO } from './ICreateTagDTO';
 import { ITagsRepository } from '@modules/tags/repositories/ITagsRepository';
-import { ITasksRepository } from '@modules/tasks/repositories/ITasksRepository';
-import { LimitTagsRatedError } from '../../../../shared/errors/LimitTagsRatedError';
-import { TaskNotFoundError } from '@shared/errors/TaskNotFoundError';
+import { CreateTagWithSameDescriptionError } from './CreateTaskError';
 
 @injectable()
 export class CreateTagUseCase {
   constructor(
     @inject('TagsRepository')
-    private tagsRepository: ITagsRepository,
-
-    @inject('TasksRepository')
-    private tasksRepository: ITasksRepository
+    private tagsRepository: ITagsRepository
   ) {}
 
   async execute({ description }: ICreateTagDTO) {
-    const lengthTags = await this.tagsRepository.list();
+    const tagsWithSamePartDescription =
+      await this.tagsRepository.listByDescriptionPart(description);
 
-    if (lengthTags.length >= 10) {
-      throw new LimitTagsRatedError();
+    if (tagsWithSamePartDescription && tagsWithSamePartDescription.length) {
+      tagsWithSamePartDescription.forEach((tag) => {
+        const hasSameDescription = tag.description === description;
+
+        if (hasSameDescription) {
+          throw new CreateTagWithSameDescriptionError();
+        }
+      });
     }
 
     const tag = await this.tagsRepository.create({

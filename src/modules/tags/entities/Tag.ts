@@ -1,11 +1,7 @@
-import { Task } from '@modules/tasks/entities/Task';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
