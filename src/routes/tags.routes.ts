@@ -1,4 +1,4 @@
-import { CreateTagController } from '@modules/tags/useCases/createTag/CreateTaskController';
+import { CreateTagController } from '@modules/tags/useCases/createTag/CreateTagController';
 import { DeleteTagController } from '@modules/tags/useCases/deleteTag/DeleteTagController';
 import { ListTagsController } from '@modules/tags/useCases/listTags/ListTagsController';
 import { UpdateTagController } from '@modules/tags/useCases/updateTag/UpdateTagController';

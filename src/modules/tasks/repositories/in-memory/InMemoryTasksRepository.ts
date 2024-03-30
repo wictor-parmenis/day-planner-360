@@ -69,26 +69,17 @@ export class InMemoryTasksRepository implements ITasksRepository {
     initial_date,
     final_date,
   }: IListTasksByIntervalDTO): Promise<Task[]> {
-    console.log('tasks listTasksByInterval', this.tasks);
     const initialDate = dayjs(initial_date);
     const finalDate = dayjs(final_date);
 
     const foundListTasks = this.tasks.filter((task) => {
       const executionDateTask = dayjs(task.date_execution);
 
-      console.log({
-        finalDate,
-        initialDate,
-        executionDateTask,
-      });
-
       return (
         executionDateTask.isBefore(finalDate) &&
         executionDateTask.isAfter(initialDate)
       );
     });
-
-    console.log('foundListTasks', foundListTasks);
 
     await Promise.all(
       foundListTasks.map(async (task) => {
@@ -130,6 +121,7 @@ export class InMemoryTasksRepository implements ITasksRepository {
     estimated_duration,
     tags_ids,
     task_id,
+    title,
   }: IUpdateTaskRepositoryDTO): Promise<Task> {
     const taskFound = await this.findById(task_id);
     const tags = this.tags.filter((tag) => tags_ids.includes(tag.id));
@@ -140,9 +132,12 @@ export class InMemoryTasksRepository implements ITasksRepository {
       description,
       estimated_duration,
       tags,
+      title,
     });
 
-    this.tasks.filter((item) => item.id !== task_id);
+    const updatedListTasks = this.tasks.filter((item) => item.id !== task_id);
+
+    this.tasks = updatedListTasks;
     this.tasks.push(taskFound);
     return taskFound;
   }

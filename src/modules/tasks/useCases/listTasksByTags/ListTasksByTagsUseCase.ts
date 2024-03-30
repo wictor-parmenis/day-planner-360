@@ -13,11 +13,17 @@ export class ListTasksByTagsUseCase {
   ) {}
 
   async execute({ tags_ids }: IListTasksByTagsDTO) {
+    if (isEmpty(tags_ids)) {
+      return [];
+    }
+
     const taskList = await this.tasksRepository.findByTags(tags_ids);
 
     if (isEmpty(taskList)) {
       return [];
     }
+
+    console.log('taskList', taskList);
 
     return taskList;
   }

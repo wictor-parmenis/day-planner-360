@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import { ICreateTagDTO } from './ICreateTagDTO';
 import { ITagsRepository } from '@modules/tags/repositories/ITagsRepository';
-import { CreateTagWithSameDescriptionError } from './CreateTaskError';
+import { CreateTagWithSameDescriptionError } from './CreateTagError';
 
 @injectable()
 export class CreateTagUseCase {
